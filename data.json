@@ -5,7 +5,7 @@
     "national": "1234567890",
     "job": "تکنسین فنی",
     "area": "ملایر",
-    "photo": "images/001.png"
+    "photo": "001.png"
   },
   {
     "id": "002",
@@ -13,6 +13,6 @@
     "national": "0987654321",
     "job": "کارشناس برق",
     "area": "همدان",
-    "photo": "images/002.png"
+    "photo": "002.png"
   }
 ]
