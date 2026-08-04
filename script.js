@@ -42,6 +42,15 @@ function showEmployee(id) {
       document.getElementById("photo").src = person.photo;
     }
 
+    // ساخت QR Code
+    document.getElementById("qrcode").innerHTML = "";
+
+    new QRCode(document.getElementById("qrcode"), {
+      text: "https://mahan131313.github.io/employee-id-card/?id=" + person.id,
+      width: 120,
+      height: 120
+    });
+
   } else {
 
     document.querySelector(".card").innerHTML =
