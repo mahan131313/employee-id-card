@@ -77,7 +77,7 @@ fetch("data.json")
 
   let container = document.getElementById("cards");
 
-  data.slice(0,8).forEach(person => {
+  data.forEach(person => {
 
     let card = document.createElement("div");
     card.className = "card";
