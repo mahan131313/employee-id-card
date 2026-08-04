@@ -7,6 +7,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
+
 @page {
   size: A4;
   margin: 10mm;
@@ -28,6 +29,7 @@ body {
   border: 1px solid #000;
   display: flex;
   flex-direction: row;
+  direction: ltr;
   overflow: hidden;
 }
 
@@ -45,6 +47,7 @@ body {
 .qr {
   width: 50%;
   text-align: center;
+  direction: rtl;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -82,11 +85,13 @@ body {
 
 
 <script>
+
 new QRCode(document.getElementById("qrcode"), {
   text: "https://mahan131313.github.io/employee-id-card/?id=001",
   width: 120,
   height: 120
 });
+
 </script>
 
 
