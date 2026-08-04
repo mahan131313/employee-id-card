@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <title>چاپ کارت پرسنلی</title>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
 <style>
 @page {
   size: A4;
@@ -63,20 +65,30 @@ body {
 
 <div class="page">
 
-<div class="card">
+  <div class="card">
 
-<div class="photo">
-<img src="001.png">
+    <div class="photo">
+      <img src="001.png">
+    </div>
+
+    <div class="qr">
+      <div id="qrcode"></div>
+      <div class="code">001</div>
+    </div>
+
+  </div>
+
 </div>
 
-<div class="qr">
-<div id="qrcode"></div>
-<div class="code">001</div>
-</div>
 
-</div>
+<script>
+new QRCode(document.getElementById("qrcode"), {
+  text: "https://mahan131313.github.io/employee-id-card/?id=001",
+  width: 120,
+  height: 120
+});
+</script>
 
-</div>
 
 </body>
 </html>
