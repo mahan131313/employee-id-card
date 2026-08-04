@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>چاپ کارت پرسنلی</title>
+
+<style>
+@page {
+  size: A4;
+  margin: 10mm;
+}
+
+body {
+  font-family: Tahoma;
+}
+
+.page {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10mm;
+}
+
+.card {
+  width: 85.6mm;
+  height: 54mm;
+  border: 1px solid #000;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+.photo {
+  width: 50%;
+  height: 100%;
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.qr {
+  width: 50%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.code {
+  margin-top: 5px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+<div class="card">
+
+<div class="photo">
+<img src="001.png">
+</div>
+
+<div class="qr">
+<div id="qrcode"></div>
+<div class="code">001</div>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>
