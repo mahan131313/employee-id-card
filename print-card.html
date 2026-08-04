@@ -46,7 +46,6 @@ body {
 
 .qr {
   width: 50%;
-  text-align: center;
   direction: rtl;
   display: flex;
   flex-direction: column;
@@ -66,30 +65,45 @@ body {
 
 <body>
 
-<div class="page">
 
-  <div class="card">
-
-    <div class="photo">
-      <img src="001.png">
-    </div>
-
-    <div class="qr">
-      <div id="qrcode"></div>
-      <div class="code">001</div>
-    </div>
-
-  </div>
-
-</div>
+<div class="page" id="cards"></div>
 
 
 <script>
 
-new QRCode(document.getElementById("qrcode"), {
-  text: "https://mahan131313.github.io/employee-id-card/?id=001",
-  width: 120,
-  height: 120
+fetch("data.json")
+.then(response => response.json())
+.then(data => {
+
+  let container = document.getElementById("cards");
+
+  data.slice(0,8).forEach(person => {
+
+    let card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <div class="photo">
+        <img src="${person.photo || person.id + '.png'}">
+      </div>
+
+      <div class="qr">
+        <div id="qr-${person.id}"></div>
+        <div class="code">${person.id}</div>
+      </div>
+    `;
+
+    container.appendChild(card);
+
+
+    new QRCode(document.getElementById("qr-" + person.id), {
+      text: "https://mahan131313.github.io/employee-id-card/?id=" + person.id,
+      width: 120,
+      height: 120
+    });
+
+  });
+
 });
 
 </script>
