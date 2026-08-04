@@ -19,8 +19,10 @@ body {
 
 .page {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10mm;
+  grid-template-columns: repeat(2, 85.6mm);
+  grid-template-rows: repeat(4, 54mm);
+  gap: 5mm;
+  justify-content: center;
 }
 
 .card {
@@ -31,6 +33,7 @@ body {
   flex-direction: row;
   direction: ltr;
   overflow: hidden;
+  page-break-inside: avoid;
 }
 
 .photo {
@@ -53,6 +56,11 @@ body {
   align-items: center;
 }
 
+.qr img {
+  width: 120px;
+  height: 120px;
+}
+
 .code {
   margin-top: 5px;
   font-size: 16px;
@@ -64,7 +72,6 @@ body {
 </head>
 
 <body>
-
 
 <div class="page" id="cards"></div>
 
@@ -107,7 +114,6 @@ fetch("data.json")
 });
 
 </script>
-
 
 </body>
 </html>
