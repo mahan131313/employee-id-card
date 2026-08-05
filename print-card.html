@@ -40,7 +40,7 @@ body{
 
 
 
-/* صفحه A4 - هشت کارت */
+/* هر صفحه A4 - 8 کارت */
 
 .page{
 
@@ -52,13 +52,13 @@ body{
 
   column-gap:8mm;
 
-  row-gap:0;
-
   justify-content:center;
 
   align-content:space-between;
 
   height:277mm;
+
+  page-break-after:always;
 
 }
 
@@ -84,6 +84,7 @@ body{
 
   page-break-inside:avoid;
 
+
   background:
 
   linear-gradient(
@@ -98,13 +99,16 @@ body{
 
   );
 
+
   outline:0.2mm dashed #999;
-outline-offset:3mm;
+
+  outline-offset:3mm;
+
 }
 
 
 
-/* افکت پس زمینه */
+/* تزئین پس زمینه */
 
 .card::before{
 
@@ -210,8 +214,6 @@ outline-offset:3mm;
 
 
 
-/* قاب سفید QR */
-
 .qr div[id^="qr-"]{
 
   background:#fff;
@@ -224,8 +226,6 @@ outline-offset:3mm;
 
 
 
-/* اندازه QR */
-
 .qr img{
 
   width:32mm!important;
@@ -236,7 +236,7 @@ outline-offset:3mm;
 
 
 
-/* کد */
+/* کد شناسایی */
 
 .code{
 
@@ -262,14 +262,13 @@ outline-offset:3mm;
 
 </style>
 
-
 </head>
 
 
 <body>
 
 
-<div class="page" id="cards"></div>
+<div id="cards"></div>
 
 
 
@@ -283,16 +282,32 @@ fetch("data.json")
 .then(data=>{
 
 
-let container=document.getElementById("cards");
+let main=document.getElementById("cards");
+
+let page=null;
 
 
-data.forEach(person=>{
+data.forEach((person,index)=>{
+
+
+if(index % 8 === 0){
+
+
+page=document.createElement("div");
+
+page.className="page";
+
+main.appendChild(page);
+
+
+}
+
 
 
 let card=document.createElement("div");
 
-
 card.className="card";
+
 
 
 card.innerHTML=`
@@ -320,7 +335,7 @@ ${person.id}
 
 
 
-container.appendChild(card);
+page.appendChild(card);
 
 
 
