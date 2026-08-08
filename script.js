@@ -4,7 +4,7 @@ let employees = [];
 // رمز مدیریت
 // =========================
 
-const ADMIN_PASSWORD = "1379";
+const ADMIN_PASSWORD = "8564";
 
 
 // =========================
