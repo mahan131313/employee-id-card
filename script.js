@@ -1,19 +1,60 @@
 let employees = [];
 
-fetch("./data.json")
+// =========================
+// رمز مدیریت
+// =========================
+
+const ADMIN_PASSWORD = "1379";
+
+
+// =========================
+// ورود مدیر
+// =========================
+
+function checkPassword() {
+
+  const password =
+    document.getElementById("adminPassword").value;
+
+  if (password === ADMIN_PASSWORD) {
+
+    document.getElementById("searchBox").style.display = "flex";
+
+    document.getElementById("adminPassword").value = "";
+
+    alert("ورود موفق بود");
+
+  } else {
+
+    alert("رمز اشتباه است");
+
+  }
+
+}
+
+
+// =========================
+// دریافت اطلاعات از data.json
+// =========================
+
+fetch("data.json")
   .then(response => {
+
     if (!response.ok) {
-      throw new Error("data.json پیدا نشد");
+      throw new Error("خطا در دریافت data.json");
     }
+
     return response.json();
+
   })
   .then(data => {
 
-    console.log("DATA:", data);
-
     employees = data;
 
-    const params = new URLSearchParams(window.location.search);
+    // اگر لینک ?id= داشته باشد
+    const params =
+      new URLSearchParams(window.location.search);
+
     const id = params.get("id");
 
     if (id) {
@@ -22,73 +63,102 @@ fetch("./data.json")
 
   })
   .catch(error => {
-    console.error("ERROR:", error);
+
+    console.error("خطا:", error);
+
   });
 
 
+// =========================
+// جستجوی پرسنل
+// =========================
+
 function searchEmployee() {
 
-  const id = document
-    .getElementById("searchId")
-    .value
-    .trim();
+  const id =
+    document
+      .getElementById("searchId")
+      .value
+      .trim();
 
   showEmployee(id);
 
 }
 
 
+// =========================
+// نمایش اطلاعات پرسنل
+// =========================
+
 function showEmployee(id) {
 
-  console.log("جستجوی کد:", id);
-
   const person = employees.find(
-    item => String(item.id).trim() === String(id).trim()
+    item => String(item.id) === String(id)
   );
+
 
   if (!person) {
 
-    alert("اطلاعات این کد پیدا نشد: " + id);
+    document.querySelector(".card").innerHTML =
+      "<h2 style='text-align:center;padding:30px'>اطلاعات پیدا نشد</h2>";
 
     return;
+
   }
 
 
+  // نام
   document.getElementById("name").textContent =
     person.name || "";
 
+
+  // کد ملی
   document.getElementById("national").textContent =
     person.national || "";
 
+
+  // شغل
   document.getElementById("job").textContent =
     person.job || "";
 
+
+  // محدوده کاری
   document.getElementById("area").textContent =
     person.area || "";
 
 
-  const photo = document.getElementById("photo");
+  // عکس
+  const photo =
+    document.getElementById("photo");
 
   photo.style.display = "block";
 
-  photo.src = "./photos/" + person.id + ".webp";
+  photo.src =
+    "photos/" + person.id + ".webp";
 
 
+  // اگر عکس پیدا نشد
   photo.onerror = function () {
 
-    console.error(
+    console.log(
       "عکس پیدا نشد:",
-      "./photos/" + person.id + ".webp"
+      "photos/" + person.id + ".webp"
     );
 
   };
 
 
-  const qr = document.getElementById("qrcode");
+  // =========================
+  // ساخت QR Code
+  // =========================
 
-  qr.innerHTML = "";
+  const qrContainer =
+    document.getElementById("qrcode");
 
-  new QRCode(qr, {
+  qrContainer.innerHTML = "";
+
+
+  new QRCode(qrContainer, {
 
     text:
       "https://mahan131313.github.io/employee-id-card/?id=" +
