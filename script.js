@@ -40,6 +40,8 @@ function checkPassword() {
 fetch("./data.json")
   .then(response => {
 
+    console.log("وضعیت data.json:", response.status);
+
     if (!response.ok) {
       throw new Error("خطا در دریافت data.json");
     }
@@ -51,23 +53,47 @@ fetch("./data.json")
 
     employees = data;
 
+    // تست اطلاعات
+    console.log("DATA:", data);
     console.log("تعداد پرسنل:", employees.length);
     console.log("اولین پرسنل:", employees[0]);
+    console.log("ID اولین نفر:", employees[0]?.id);
 
+
+    // =========================
+    // بررسی اینکه data آرایه است
+    // =========================
+
+    if (!Array.isArray(employees)) {
+
+      console.error("data.json باید شامل یک آرایه باشد");
+
+      return;
+
+    }
+
+
+    // =========================
     // اگر لینک ?id= داشته باشد
+    // =========================
+
     const params =
       new URLSearchParams(window.location.search);
 
     const id = params.get("id");
 
     if (id) {
+
+      console.log("ID دریافت شده از لینک:", id);
+
       showEmployee(id);
+
     }
 
   })
   .catch(error => {
 
-    console.error("خطا:", error);
+    console.error("خطا در خواندن data.json:", error);
 
   });
 
@@ -78,11 +104,21 @@ fetch("./data.json")
 
 function searchEmployee() {
 
+  const input =
+    document.getElementById("searchId");
+
+  if (!input) {
+
+    console.error("عنصر searchId در HTML پیدا نشد");
+
+    return;
+
+  }
+
+
   const id =
-    document
-      .getElementById("searchId")
-      .value
-      .trim();
+    input.value.trim();
+
 
   if (!id) {
 
@@ -91,6 +127,9 @@ function searchEmployee() {
     return;
 
   }
+
+
+  console.log("کد وارد شده:", id);
 
   showEmployee(id);
 
@@ -103,61 +142,134 @@ function searchEmployee() {
 
 function showEmployee(id) {
 
-  // تبدیل 1 به 001
+  // تبدیل مثلاً 1 به 001
   const searchId =
-    String(id).trim().padStart(3, "0");
+    String(id)
+      .trim()
+      .padStart(3, "0");
 
-  console.log("کد جستجو:", searchId);
+
+  console.log("کد نهایی برای جستجو:", searchId);
 
 
+  // =========================
   // پیدا کردن شخص
-  const person = employees.find(item => {
+  // =========================
 
-    const personId =
-      String(item.id).trim().padStart(3, "0");
+  const person =
+    employees.find(item => {
 
-    return personId === searchId;
+      const personId =
+        String(item.id)
+          .trim()
+          .padStart(3, "0");
 
-  });
+      console.log(
+        "مقایسه:",
+        personId,
+        "با",
+        searchId
+      );
+
+      return personId === searchId;
+
+    });
 
 
+  // =========================
   // اگر پیدا نشد
+  // =========================
+
   if (!person) {
 
-    document.querySelector(".card").innerHTML =
-      "<h2 style='text-align:center;padding:30px'>اطلاعات پیدا نشد</h2>";
-
     console.log(
-      "این کد پیدا نشد:",
+      "این کد در data.json پیدا نشد:",
       searchId
     );
+
+
+    const card =
+      document.querySelector(".card");
+
+
+    if (card) {
+
+      card.innerHTML =
+        "<h2 style='text-align:center;padding:30px'>اطلاعات پیدا نشد</h2>";
+
+    }
+
 
     return;
 
   }
 
 
-  console.log(
-    "پرسنل پیدا شد:",
-    person
-  );
+  // =========================
+  // شخص پیدا شد
+  // =========================
+
+  console.log("پرسنل پیدا شد:", person);
 
 
   // =========================
-  // اطلاعات پرسنل
+  // نمایش نام
   // =========================
 
-  document.getElementById("name").textContent =
-    person.name || "";
+  const name =
+    document.getElementById("name");
 
-  document.getElementById("national").textContent =
-    person.national || "";
+  if (name) {
 
-  document.getElementById("job").textContent =
-    person.job || "";
+    name.textContent =
+      person.name || "";
 
-  document.getElementById("area").textContent =
-    person.area || "";
+  }
+
+
+  // =========================
+  // نمایش کد ملی
+  // =========================
+
+  const national =
+    document.getElementById("national");
+
+  if (national) {
+
+    national.textContent =
+      person.national || "";
+
+  }
+
+
+  // =========================
+  // نمایش شغل
+  // =========================
+
+  const job =
+    document.getElementById("job");
+
+  if (job) {
+
+    job.textContent =
+      person.job || "";
+
+  }
+
+
+  // =========================
+  // نمایش محدوده کاری
+  // =========================
+
+  const area =
+    document.getElementById("area");
+
+  if (area) {
+
+    area.textContent =
+      person.area || "";
+
+  }
 
 
   // =========================
@@ -167,20 +279,25 @@ function showEmployee(id) {
   const photo =
     document.getElementById("photo");
 
-  photo.style.display = "block";
 
-  photo.src =
-    "photos/" + searchId + ".webp";
+  if (photo) {
+
+    photo.style.display = "block";
+
+    photo.src =
+      "photos/" + searchId + ".webp";
 
 
-  photo.onerror = function () {
+    photo.onerror = function () {
 
-    console.log(
-      "عکس پیدا نشد:",
-      "photos/" + searchId + ".webp"
-    );
+      console.log(
+        "عکس پیدا نشد:",
+        "photos/" + searchId + ".webp"
+      );
 
-  };
+    };
+
+  }
 
 
   // =========================
@@ -190,19 +307,24 @@ function showEmployee(id) {
   const qrContainer =
     document.getElementById("qrcode");
 
-  qrContainer.innerHTML = "";
+
+  if (qrContainer) {
+
+    qrContainer.innerHTML = "";
 
 
-  new QRCode(qrContainer, {
+    new QRCode(qrContainer, {
 
-    text:
-      "https://mahan131313.github.io/employee-id-card/?id=" +
-      searchId,
+      text:
+        "https://mahan131313.github.io/employee-id-card/?id=" +
+        searchId,
 
-    width: 120,
+      width: 120,
 
-    height: 120
+      height: 120
 
-  });
+    });
+
+  }
 
 }
