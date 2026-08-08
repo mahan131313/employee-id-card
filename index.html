@@ -1,72 +1,153 @@
 <!DOCTYPE html>
+
 <html lang="fa" dir="rtl">
 
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>کارت شناسایی پرسنل</title>
 
   <!-- فونت فارسی -->
-  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700&display=swap"
+    rel="stylesheet"
+  >
 
   <!-- فایل استایل -->
+
   <link rel="stylesheet" href="style.css">
 
 </head>
 
 <body>
 
-<div class="search">
-  <input type="text" id="searchId" placeholder="کد شناسایی را وارد کنید">
-  <button onclick="searchEmployee()">جستجو</button>
-</div>
+  <div class="search">
 
-<div class="card">
+```
+<input
+  type="text"
+  id="searchId"
+  placeholder="کد شناسایی را وارد کنید"
+>
 
-  <div class="header">
-    <h1>شرکت فنی مهندسی بهین دشت ملایر</h1>
-    <h2>کارت شناسایی پرسنل</h2>
+<button onclick="searchEmployee()">
+  جستجو
+</button>
+```
+
   </div>
 
-  <div class="photo">
-    <img id="photo" src="" alt="عکس پرسنلی">
+  <div class="card">
+
+```
+<div class="header">
+
+  <h1>
+    شرکت فنی مهندسی بهین دشت ملایر
+  </h1>
+
+  <h2>
+    کارت شناسایی پرسنل
+  </h2>
+
+</div>
+
+
+<div class="photo">
+
+  <img
+    id="photo"
+    src=""
+    alt="عکس پرسنلی"
+  >
+
+</div>
+
+
+<div class="info">
+
+  <div class="info-box">
+
+    <div class="title">
+      👤 نام و نام خانوادگی
+    </div>
+
+    <div
+      class="value"
+      id="name">
+    </div>
+
   </div>
 
- <div class="info">
 
-<div class="info-box">
-<div class="title">👤 نام و نام خانوادگی</div>
-<div class="value" id="name"></div>
-</div>
+  <div class="info-box">
 
-<div class="info-box">
-<div class="title">🆔 کد ملی</div>
-<div class="value" id="national"></div>
-</div>
+    <div class="title">
+      🆔 کد ملی
+    </div>
 
-<div class="info-box">
-<div class="title">💼 عنوان شغل</div>
-<div class="value" id="job"></div>
-</div>
+    <div
+      class="value"
+      id="national">
+    </div>
 
-<div class="info-box">
-<div class="title">📍 محدوده کاری</div>
-<div class="value" id="area"></div>
-</div>
+  </div>
 
-</div>
 
-  <div id="qrcode"></div>
+  <div class="info-box">
 
-  <div class="footer">
-    رسیدگی به شکایات: <strong>۱۳۷</strong>
+    <div class="title">
+      💼 عنوان شغل
+    </div>
+
+    <div
+      class="value"
+      id="job">
+    </div>
+
+  </div>
+
+
+  <div class="info-box">
+
+    <div class="title">
+      📍 محدوده کاری
+    </div>
+
+    <div
+      class="value"
+      id="area">
+    </div>
+
   </div>
 
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="script.js"></script>
+
+<div id="qrcode"></div>
+
+
+<div class="footer">
+
+  رسیدگی به شکایات:
+  <strong>۱۳۷</strong>
+
+</div>
+```
+
+  </div>
+
+  <!-- QR Code -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <!-- فایل JavaScript -->
+
+  <script src="script.js"></script>
 
 </body>
+
 </html>
