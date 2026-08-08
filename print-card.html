@@ -9,256 +9,244 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-
 <style>
 
 @page {
+  size: A4;
+  margin: 10mm;
+}
 
-  size:A4;
+* {
+  box-sizing: border-box;
+}
 
-  margin:10mm;
+body {
+  font-family: Tahoma, sans-serif;
+  margin: 0;
+  background: #fff;
+}
+
+
+/* =========================
+   صفحه A4 - هشت کارت
+========================= */
+
+.page {
+
+  display: grid;
+
+  grid-template-columns: repeat(2, 85.6mm);
+
+  grid-template-rows: repeat(4, 54mm);
+
+  column-gap: 8mm;
+
+  justify-content: center;
+
+  align-content: space-between;
+
+  height: 277mm;
+
+  page-break-after: always;
 
 }
 
 
-*{
+/* =========================
+   کارت PVC
+========================= */
 
-  box-sizing:border-box;
+.card {
 
-}
+  width: 85.6mm;
 
+  height: 54mm;
 
-body{
+  border-radius: 4mm;
 
-  font-family:Tahoma,sans-serif;
+  overflow: hidden;
 
-  margin:0;
+  display: flex;
 
-  background:#fff;
+  direction: ltr;
 
-}
+  position: relative;
 
-
-
-/* هر صفحه A4 - 8 کارت */
-
-.page{
-
-  display:grid;
-
-  grid-template-columns:repeat(2,85.6mm);
-
-  grid-template-rows:repeat(4,54mm);
-
-  column-gap:8mm;
-
-  justify-content:center;
-
-  align-content:space-between;
-
-  height:277mm;
-
-  page-break-after:always;
-
-}
-
-
-
-/* کارت PVC */
-
-.card{
-
-  width:85.6mm;
-
-  height:54mm;
-
-  border-radius:4mm;
-
-  overflow:hidden;
-
-  display:flex;
-
-  direction:ltr;
-
-  position:relative;
-
-  page-break-inside:avoid;
-
+  page-break-inside: avoid;
 
   background:
 
   linear-gradient(
 
-  135deg,
+    135deg,
 
-  #0D47A1,
+    #0D47A1,
 
-  #1976D2,
+    #1976D2,
 
-  #42A5F5
+    #42A5F5
 
   );
 
+}
 
-  outline:0.2mm dashed #999;
 
-  outline-offset:3mm;
+/* =========================
+   تزئین پس زمینه
+========================= */
+
+.card::before {
+
+  content: "";
+
+  position: absolute;
+
+  width: 40mm;
+
+  height: 40mm;
+
+  border-radius: 50%;
+
+  background: rgba(255,255,255,.15);
+
+  top: -18mm;
+
+  right: -12mm;
 
 }
 
 
+.card::after {
 
-/* تزئین پس زمینه */
+  content: "";
 
-.card::before{
+  position: absolute;
 
-  content:"";
+  width: 30mm;
 
-  position:absolute;
+  height: 30mm;
 
-  width:40mm;
+  border-radius: 50%;
 
-  height:40mm;
+  background: rgba(255,255,255,.1);
 
-  border-radius:50%;
+  bottom: -12mm;
 
-  background:rgba(255,255,255,.15);
-
-  top:-18mm;
-
-  right:-12mm;
+  left: -10mm;
 
 }
 
 
-.card::after{
+/* =========================
+   عکس شخص
+========================= */
 
-  content:"";
+.photo {
 
-  position:absolute;
+  width: 45%;
 
-  width:30mm;
+  height: 100%;
 
-  height:30mm;
+  display: flex;
 
-  border-radius:50%;
+  align-items: center;
 
-  background:rgba(255,255,255,.1);
+  justify-content: center;
 
-  bottom:-12mm;
+  padding: 6mm;
 
-  left:-10mm;
-
-}
-
-
-
-/* عکس */
-
-.photo{
-
-  width:45%;
-
-  height:100%;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  padding:6mm;
-
-  z-index:2;
+  z-index: 2;
 
 }
 
 
-.photo img{
+.photo img {
 
-  width:34mm;
+  width: 34mm;
 
-  height:34mm;
+  height: 34mm;
 
-  object-fit:cover;
+  object-fit: cover;
 
-  border-radius:50%;
+  border-radius: 50%;
 
-  background:#fff;
+  background: #fff;
 
-  padding:1.5mm;
-
-}
-
-
-
-/* QR */
-
-.qr{
-
-  width:55%;
-
-  height:100%;
-
-  display:flex;
-
-  flex-direction:column;
-
-  justify-content:center;
-
-  align-items:center;
-
-  z-index:2;
+  padding: 1.5mm;
 
 }
 
 
+/* =========================
+   QR Code
+========================= */
 
-.qr div[id^="qr-"]{
+.qr {
 
-  background:#fff;
+  width: 55%;
 
-  padding:3mm;
+  height: 100%;
 
-  border-radius:3mm;
+  display: flex;
 
-}
+  flex-direction: column;
 
+  justify-content: center;
 
+  align-items: center;
 
-.qr img{
-
-  width:32mm!important;
-
-  height:32mm!important;
-
-}
-
-
-
-/* کد شناسایی */
-
-.code{
-
-  margin-top:3mm;
-
-  background:#fff;
-
-  color:#0D47A1;
-
-  padding:1.5mm 5mm;
-
-  border-radius:10mm;
-
-  font-size:13px;
-
-  font-weight:bold;
-
-  direction:ltr;
+  z-index: 2;
 
 }
 
 
+/* قاب سفید QR */
+
+.qr div[id^="qr-"] {
+
+  background: #fff;
+
+  padding: 3mm;
+
+  border-radius: 3mm;
+
+}
+
+
+/* اندازه QR */
+
+.qr img {
+
+  width: 32mm !important;
+
+  height: 32mm !important;
+
+}
+
+
+/* =========================
+   کد شناسایی
+========================= */
+
+.code {
+
+  margin-top: 3mm;
+
+  background: #fff;
+
+  color: #0D47A1;
+
+  padding: 1.5mm 5mm;
+
+  border-radius: 10mm;
+
+  font-size: 13px;
+
+  font-weight: bold;
+
+  direction: ltr;
+
+}
 
 </style>
 
@@ -271,99 +259,93 @@ body{
 <div id="cards"></div>
 
 
-
 <script>
-
 
 fetch("data.json")
 
-.then(response=>response.json())
+.then(response => response.json())
 
-.then(data=>{
+.then(data => {
 
+  let main = document.getElementById("cards");
 
-let main=document.getElementById("cards");
-
-let page=null;
-
-
-data.forEach((person,index)=>{
+  let page = null;
 
 
-if(index % 8 === 0){
+  data.forEach((person, index) => {
 
 
-page=document.createElement("div");
+    /* هر 8 نفر یک صفحه A4 */
 
-page.className="page";
+    if (index % 8 === 0) {
 
-main.appendChild(page);
+      page = document.createElement("div");
 
+      page.className = "page";
 
-}
+      main.appendChild(page);
 
-
-
-let card=document.createElement("div");
-
-card.className="card";
+    }
 
 
+    /* ساخت کارت */
 
-card.innerHTML=`
+    let card = document.createElement("div");
 
-<div class="photo">
-
-<img src="${person.photo || person.id+'.png'}">
-
-</div>
+    card.className = "card";
 
 
-<div class="qr">
+    card.innerHTML = `
 
-<div id="qr-${person.id}"></div>
+      <div class="photo">
 
-<div class="code">
+        <img src="${person.photo || person.id + '.png'}">
 
-${person.id}
-
-</div>
-
-</div>
-
-`;
+      </div>
 
 
+      <div class="qr">
 
-page.appendChild(card);
+        <div id="qr-${person.id}"></div>
 
+        <div class="code">
 
+          ${person.id}
 
-new QRCode(
+        </div>
 
-document.getElementById("qr-"+person.id),
+      </div>
 
-{
-
-text:
-
-"https://mahan131313.github.io/employee-id-card/?id="+person.id,
-
-width:140,
-
-height:140
-
-}
-
-);
+    `;
 
 
+    page.appendChild(card);
 
-});
 
+    /* ساخت QR */
+
+    new QRCode(
+
+      document.getElementById("qr-" + person.id),
+
+      {
+
+        text:
+
+        "https://mahan131313.github.io/employee-id-card/?id=" + person.id,
+
+        width: 140,
+
+        height: 140
+
+      }
+
+    );
+
+
+  });
 
 });
-
 
 </script>
 
