@@ -14,7 +14,7 @@ const ADMIN_PASSWORD = "8564";
 function checkPassword() {
 
   const password =
-    document.getElementById("adminPassword").value;
+    document.getElementById("adminPassword").value.trim();
 
   if (password === ADMIN_PASSWORD) {
 
@@ -37,7 +37,7 @@ function checkPassword() {
 // دریافت اطلاعات از data.json
 // =========================
 
-fetch("data.json")
+fetch("./data.json")
   .then(response => {
 
     if (!response.ok) {
@@ -50,6 +50,9 @@ fetch("data.json")
   .then(data => {
 
     employees = data;
+
+    console.log("تعداد پرسنل:", employees.length);
+    console.log("اولین پرسنل:", employees[0]);
 
     // اگر لینک ?id= داشته باشد
     const params =
@@ -81,6 +84,14 @@ function searchEmployee() {
       .value
       .trim();
 
+  if (!id) {
+
+    alert("لطفاً کد شناسایی را وارد کنید");
+
+    return;
+
+  }
+
   showEmployee(id);
 
 }
@@ -92,57 +103,81 @@ function searchEmployee() {
 
 function showEmployee(id) {
 
-  const person = employees.find(
-    item => String(item.id) === String(id)
-  );
+  // تبدیل 1 به 001
+  const searchId =
+    String(id).trim().padStart(3, "0");
+
+  console.log("کد جستجو:", searchId);
 
 
+  // پیدا کردن شخص
+  const person = employees.find(item => {
+
+    const personId =
+      String(item.id).trim().padStart(3, "0");
+
+    return personId === searchId;
+
+  });
+
+
+  // اگر پیدا نشد
   if (!person) {
 
     document.querySelector(".card").innerHTML =
       "<h2 style='text-align:center;padding:30px'>اطلاعات پیدا نشد</h2>";
+
+    console.log(
+      "این کد پیدا نشد:",
+      searchId
+    );
 
     return;
 
   }
 
 
-  // نام
+  console.log(
+    "پرسنل پیدا شد:",
+    person
+  );
+
+
+  // =========================
+  // اطلاعات پرسنل
+  // =========================
+
   document.getElementById("name").textContent =
     person.name || "";
 
-
-  // کد ملی
   document.getElementById("national").textContent =
     person.national || "";
 
-
-  // شغل
   document.getElementById("job").textContent =
     person.job || "";
 
-
-  // محدوده کاری
   document.getElementById("area").textContent =
     person.area || "";
 
 
-  // عکس
+  // =========================
+  // نمایش عکس
+  // =========================
+
   const photo =
     document.getElementById("photo");
 
   photo.style.display = "block";
 
   photo.src =
-    "photos/" + person.id + ".webp";
+    "photos/" + searchId + ".webp";
 
 
-  // اگر عکس پیدا نشد
   photo.onerror = function () {
 
     console.log(
       "عکس پیدا نشد:",
-      "photos/" + person.id + ".webp"
+      "photos/" + searchId + ".webp"
     );
 
   };
@@ -162,7 +197,7 @@ function showEmployee(id) {
 
     text:
       "https://mahan131313.github.io/employee-id-card/?id=" +
-      person.id,
+      searchId,
 
     width: 120,
 
