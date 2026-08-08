@@ -1,18 +1,18 @@
 let employees = [];
 
-// دریافت اطلاعات از data.json
-fetch("data.json")
+fetch("./data.json")
   .then(response => {
     if (!response.ok) {
-      throw new Error("خطا در دریافت data.json");
+      throw new Error("data.json پیدا نشد");
     }
     return response.json();
   })
   .then(data => {
 
+    console.log("DATA:", data);
+
     employees = data;
 
-    // بررسی وجود id در آدرس
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
 
@@ -22,11 +22,10 @@ fetch("data.json")
 
   })
   .catch(error => {
-    console.error("خطا:", error);
+    console.error("ERROR:", error);
   });
 
 
-// جستجوی پرسنل
 function searchEmployee() {
 
   const id = document
@@ -35,26 +34,26 @@ function searchEmployee() {
     .trim();
 
   showEmployee(id);
+
 }
 
 
-// نمایش اطلاعات پرسنل
 function showEmployee(id) {
 
+  console.log("جستجوی کد:", id);
+
   const person = employees.find(
-    item => String(item.id) === String(id)
+    item => String(item.id).trim() === String(id).trim()
   );
 
   if (!person) {
 
-    document.querySelector(".card").innerHTML =
-      "<h2 style='text-align:center;padding:30px'>اطلاعات پیدا نشد</h2>";
+    alert("اطلاعات این کد پیدا نشد: " + id);
 
     return;
   }
 
 
-  // اطلاعات پرسنل
   document.getElementById("name").textContent =
     person.name || "";
 
@@ -68,37 +67,28 @@ function showEmployee(id) {
     person.area || "";
 
 
-  // =========================
-  // نمایش عکس WebP
-  // =========================
-
   const photo = document.getElementById("photo");
 
-  photo.src = "photos/" + person.id + ".webp";
+  photo.style.display = "block";
+
+  photo.src = "./photos/" + person.id + ".webp";
 
 
-  // اگر عکس پیدا نشد
   photo.onerror = function () {
 
-    console.log(
+    console.error(
       "عکس پیدا نشد:",
-      "photos/" + person.id + ".webp"
+      "./photos/" + person.id + ".webp"
     );
 
-    photo.style.display = "none";
   };
 
 
-  // =========================
-  // ساخت QR Code
-  // =========================
+  const qr = document.getElementById("qrcode");
 
-  const qrContainer =
-    document.getElementById("qrcode");
+  qr.innerHTML = "";
 
-  qrContainer.innerHTML = "";
-
-  new QRCode(qrContainer, {
+  new QRCode(qr, {
 
     text:
       "https://mahan131313.github.io/employee-id-card/?id=" +
